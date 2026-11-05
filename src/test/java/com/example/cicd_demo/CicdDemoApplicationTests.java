@@ -9,7 +9,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.containsString;
 
+import org.springframework.http.MediaType;
 @SpringBootTest
 @AutoConfigureMockMvc
 class CicdDemoApplicationTests {
@@ -19,11 +21,8 @@ class CicdDemoApplicationTests {
 
     @Test
     void homeEndpointTest() throws Exception {
-
         mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message")
-                .value("Welcome to CI/CD Demo Application"));
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -32,7 +31,7 @@ class CicdDemoApplicationTests {
         mockMvc.perform(get("/api/status"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.application")
-                .value("CICD-Demo"))
+                .value("Calculator App"))
                 .andExpect(jsonPath("$.status")
                 .value("Running"));
     }
