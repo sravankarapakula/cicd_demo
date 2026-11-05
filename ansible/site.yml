@@ -1,0 +1,29 @@
+---
+- name: Configure and verify AWS deployment server
+
+  hosts: aws
+  become: yes
+
+  tasks:
+
+    - name: Ensure Docker is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Ensure k3s is running
+      ansible.builtin.service:
+        name: k3s
+        state: started
+        enabled: yes
+
+    - name: Check Kubernetes nodes
+      ansible.builtin.command:
+        cmd: k3s kubectl get nodes
+      register: kubernetes_nodes
+      changed_when: false
+
+    - name: Display Kubernetes nodes
+      ansible.builtin.debug:
+        var: kubernetes_nodes.stdout
