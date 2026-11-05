@@ -49,6 +49,7 @@ pipeline {
             }
         }
 
+        
         stage('Transfer Files to AWS') {
             steps {
                 withCredentials([
@@ -67,21 +68,32 @@ pipeline {
 
                         echo %DOCKER_TOKEN%> deploy\\dockerhub-token.txt
 
-                        ssh -i "%SSH_KEY%" ubuntu@%EC2_HOST% "mkdir -p /home/ubuntu/app/target /home/ubuntu/app/k8s"
+                        ssh -i "%SSH_KEY%" ubuntu@%EC2_HOST% "mkdir -p /home/ubuntu/app/target /home/ubuntu/app/k8s && rm -f /home/ubuntu/app/target/*.jar"
+
+                        if errorlevel 1 exit /b 1
 
                         scp -i "%SSH_KEY%" deploy\\target\\cicd-demo.jar ubuntu@%EC2_HOST%:/home/ubuntu/app/target/
 
+                        if errorlevel 1 exit /b 1
+
                         scp -i "%SSH_KEY%" deploy\\Dockerfile ubuntu@%EC2_HOST%:/home/ubuntu/app/
+
+                        if errorlevel 1 exit /b 1
 
                         scp -i "%SSH_KEY%" -r deploy\\k8s\\* ubuntu@%EC2_HOST%:/home/ubuntu/app/k8s/
 
+                        if errorlevel 1 exit /b 1
+
                         scp -i "%SSH_KEY%" deploy\\dockerhub-token.txt ubuntu@%EC2_HOST%:/tmp/dockerhub-token.txt
+
+                        if errorlevel 1 exit /b 1
 
                         del deploy\\dockerhub-token.txt
                     '''
                 }
             }
         }
+
 
         stage('Build and Push Docker Image on AWS') {
             steps {
