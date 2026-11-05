@@ -105,6 +105,7 @@ pipeline {
             }
         }
 
+        
         stage('Deploy to Kubernetes on AWS') {
             steps {
                 withCredentials([
@@ -116,11 +117,12 @@ pipeline {
                     bat '''
                         @echo off
 
-                        ssh -i "%SSH_KEY%" ubuntu@%EC2_HOST% "sed -i 's|IMAGE_PLACEHOLDER|%DOCKER_IMAGE%:%BUILD_NUMBER%|' /home/ubuntu/app/k8s/deployment.yaml && sudo k3s kubectl apply -f /home/ubuntu/app/k8s/ && sudo k3s kubectl rollout status deployment/cicd-demo --timeout=180s"
+                        ssh -i "%SSH_KEY%" ubuntu@%EC2_HOST% "sed -i 's|^ *image:.*|          image: %DOCKER_IMAGE%:%BUILD_NUMBER%|' /home/ubuntu/app/k8s/deployment.yaml && sudo k3s kubectl apply -f /home/ubuntu/app/k8s/ && sudo k3s kubectl rollout status deployment/cicd-demo --timeout=180s"
                     '''
                 }
             }
         }
+
 
         stage('Verify Deployment') {
             steps {

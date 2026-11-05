@@ -20,7 +20,7 @@ spec:
       containers:
         - name: cicd-demo
 
-          image: docker.io/sravankarapakula/cicd-demo:1.0
+          image: IMAGE_PLACEHOLDER
 
           imagePullPolicy: Always
 
