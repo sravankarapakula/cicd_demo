@@ -23,7 +23,7 @@ public class HomeController {
 
         return Map.of(
             "application",
-            "2nd deployment",
+            "CICD-Demo",
             "status",
             "Running",
             "version",
