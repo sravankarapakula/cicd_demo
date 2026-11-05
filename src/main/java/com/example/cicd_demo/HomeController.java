@@ -14,7 +14,7 @@ public class HomeController {
 
         return Map.of(
             "message",
-            "Welcome to CI/CD Demo Application.....New World Order Is Coming..!!!"
+            "Welcome to CI/CD Demo Application"
         );
     }
 
