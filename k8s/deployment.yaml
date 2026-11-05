@@ -22,7 +22,7 @@ spec:
 
           image: docker.io/sravankarapakula/cicd-demo:1.0
 
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
 
           ports:
             - containerPort: 8080
