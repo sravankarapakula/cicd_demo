@@ -8,8 +8,7 @@ import org.springframework.http.ResponseEntity;
 public class HealthController {
 
     @GetMapping("/api/health")
-public ResponseEntity<String> health() {
-    return ResponseEntity.status(500)
-            .body("Application is unhealthy");
-}
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("Application is healthy");
+    }
 }
